@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DICT Digital Logbook</title>
+  <link rel="icon" href="src/images/DICT-Logo-icon_only.png" type="image/x-icon">
+  <link rel="stylesheet" href="bootstrap-5.3.6-dist/css/bootstrap.min.css">
+  <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="src/css/font.css">
+  <style>
+
+    body {
+      background-color: #f1f6fb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-size: cover;
+      background-position: center;
+      background-image: url('src/images/lowp.jpg');
+    }
+
+    .form-card {
+      max-width: 900px;
+      border-radius: 1rem;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid d-flex align-items-center justify-content-center vh-100 mt-5">
+    <div class="row w-100 justify-content-center align-items-center">
+
+      <div class="card form-card p-4 mb-3">
+        <form id="appform" class="needs-validation" novalidate>
+          <h1 class="text-center mb-4">Digital Logbook</h1>
+          <div class="row g-0">
+
+            <!-- Left Side -->
+            <div class="col-md-6 p-4">
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Juan Dela Cruz" required>
+                <div class="invalid-feedback">Please enter your name.</div>
+              </div>
+              <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="tel" class="form-control" id="phone" placeholder="0987654321" pattern="[0-9]{10}">
+                <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="juan@gmail.com">
+                <div class="invalid-feedback">Please enter a valid email address.</div>
+              </div>
+              <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <select class="form-select" id="gender" required>
+                  <option value="" disabled selected>Select your gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                  <option value="Prefer not to say">Prefer not to say</option>
+                </select>
+                <div class="invalid-feedback">Please select your gender.</div>
+              </div>
+            </div>
+
+            <!-- Right Side -->
+            <div class="col-md-6 p-4">
+              <div class="mb-3">
+                <label for="municipality" class="form-label">Municipality</label>
+                <select class="form-select" id="municipality" required>
+                  <option value="" disabled selected>Select your municipality</option>
+                  <option value="Virac">Virac</option>
+                  <option value="Bato">Bato</option>
+                  <option value="Baras">Baras</option>
+                  <option value="San Miguel">San Miguel</option>
+                  <option value="San Andres">San Andres</option>
+                  <option value="Caramoran">Caramoran</option>
+                  <option value="Gigmoto">Gigmoto</option>
+                  <option value="Pandan">Pandan</option>
+                  <option value="Bagamanoc">Bagamanoc</option>
+                  <option value="Viga">Viga</option>
+                  <option value="Panganiban">Panganiban</option>
+                </select>
+                <div class="invalid-feedback">Please select your municipality.</div>
+              </div>
+              <div class="mb-3">
+                <label for="sector" class="form-label">Sector</label>
+                <select class="form-select" id="sector" required>
+                  <option value="" disabled selected>Select your sector</option>
+                  <option value="NGA">NGA</option>
+                  <option value="LGU">LGU</option>
+                  <option value="WOMEN">WOMEN</option>
+                  <option value="STUDENT">STUDENT</option>
+                  <option value="PWDS">PWDS</option>
+                  <option value="OSY">OSY</option>
+                  <option value="PDLS">PDLS</option>
+                  <option value="INDIGENOUS PEOPLE">INDIGENOUS PEOPLE</option>
+                  <option value="SENIOR CITIZEN">SENIOR CITIZEN</option>
+                  <option value="SUC">SUC</option>
+                  <option value="FARMERS/FISHER">FARMERS/FISHER</option>
+                  <option value="MSME">MSME</option>
+                  <option value="OTHERS">OTHERS</option>
+                </select>
+                <div class="invalid-feedback">Please select your sector.</div>
+              </div>
+              <div class="mb-3">
+                <label for="purpose" class="form-label">Purpose</label>
+                <textarea class="form-control" id="purpose" placeholder="Enter your purpose here" rows="4" ></textarea>
+                <div class="invalid-feedback">Please enter your purpose.</div>
+              </div>
+            </div>
+
+            <!-- Submit Section -->
+            <div class="d-grid mb-3 px-4">
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="agree" required>
+                <label class="form-check-label" for="agree">I agree to the <a href="https://privacy.gov.ph/wp-content/uploads/2024/06/DPA-of-2012_1.pdf">Data Privacy</a> Policy</label>
+                <div class="invalid-feedback">You must agree to the Privacy Policy.</div>
+              </div>
+              <button type="submit" class="btn btn-primary p-2" style="border-radius: 30px;">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="text-center">
+         <img src="src/images/bagong-pilipinas.png" alt="DICT Logo" class="img-fluid p-2" style="width: 100px; height: auto;">
+        <a href="admin.html"><img src="src/images/DICT-Logo-icon_only.png" alt="DICT Logo" class="img-fluid p-2" style="width: 100px; height: auto;"></a>
+        <img src="src/images/dtc_CATANDUANES.png" alt="DICT Logo" class="img-fluid p-2" style="width: 130px; height: auto;">
+        <img src="src/images/ilcdb logo.png" alt="DICT Logo" class="img-fluid p-2" style="width: 120px; height: auto;">
+        <img src="src/images/egov.png" alt="DICT Logo" class="img-fluid p-2" style="width: 100px; height: auto;">
+      </div>
+    </div>
+
+  </div>
+  <!-- <script src="src/js/script.js"></script> -->
+  <script type="module" src="src/js/firebase/fb_setup.js"></script>
+  <script type="module" src="src/js/firebase/fb_make.js"></script>
+   <script src="src/js/key_press.js"></script>
+  <!-- <script src="firebase/fb_setup.js"></script> -->
+   <!-- <script  type="module" src="src/js/cookies.js"></script> -->
+
+  <script>
+    // Bootstrap validation
+    (function () {
+      'use strict';
+      const forms = document.querySelectorAll('.needs-validation');
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();
+  </script>
+</body>
+
+</html>
