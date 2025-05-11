@@ -11,7 +11,9 @@
   <link rel="stylesheet" href="src/css/font.css">
   <style>
     body {
-      background-color: #f1f6fb;
+      background-color: #f8f9fa;
+      font-family: 'Arial', sans-serif;
+      color: #343a40;
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -24,8 +26,60 @@
     .form-card {
       max-width: 900px;
       border-radius: 1rem;
-      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
       overflow: hidden;
+      background-color: #ffffff;
+    }
+
+    .form-card h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #535353;
+    }
+
+    .form-label {
+      font-weight: bold;
+      color: #495057;
+    }
+
+    .form-control, .form-select {
+      border-radius: 0.5rem;
+      border: 1px solid #ced4da;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+      border-radius: 30px;
+      font-weight: bold;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #004085;
+    }
+
+    .form-check-label a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .form-check-label a:hover {
+      text-decoration: underline;
+    }
+
+    .invalid-feedback {
+      font-size: 0.875rem;
+      color: #dc3545;
+    }
+
+    .text-center img {
+      margin: 0.5rem;
     }
   </style>
 </head>
@@ -48,7 +102,8 @@
               </div>
               <div class="mb-3">
                 <label for="phone" class="form-label">Phone</label>
-                <input type="tel" class="form-control" id="phone" placeholder="09876543210" pattern="[0-9]{11}" maxlength="11">
+                <input type="tel" class="form-control" id="phone" placeholder="09876543210" pattern="[0-9]{11}"
+                  maxlength="11">
                 <div class="invalid-feedback">Please enter a valid 11-digit phone number.</div>
               </div>
               <div class="mb-3">
@@ -56,7 +111,7 @@
                 <input type="email" class="form-control" id="email" placeholder="juan@gmail.com">
                 <div class="invalid-feedback">Please enter a valid email address.</div>
               </div>
-              <div class="mb-3">
+                <div class="mb-3" id="gender-container">
                 <label for="gender" class="form-label">Gender</label>
                 <select class="form-select" id="gender" required>
                   <option value="" disabled selected>Select your gender</option>
@@ -66,12 +121,60 @@
                   <option value="Prefer not to say">Prefer not to say</option>
                 </select>
                 <div class="invalid-feedback">Please select your gender.</div>
-              </div>
+                </div>
+                <div class="mb-3" id="other-gender-container" style="display: none;">
+                <label for="other-gender" class="form-label">Specify Other Gender</label>
+                <input type="text" class="form-control" id="other-gender" placeholder="Enter your gender">
+                <div class="invalid-feedback">Please specify your gender.</div>
+                </div>
+                <script>
+                document.getElementById('gender').addEventListener('change', function () {
+                  const otherGenderContainer = document.getElementById('other-gender-container');
+                  if (this.value === 'Other') {
+                  otherGenderContainer.style.display = 'block';
+                  document.getElementById('other-gender').setAttribute('required', 'required');
+                  } else {
+                  otherGenderContainer.style.display = 'none';
+                  document.getElementById('other-gender').removeAttribute('required');
+                  }
+                });
+                </script>
             </div>
 
             <!-- Right Side -->
             <div class="col-md-6 p-4">
-              <div class="mb-3">
+                <div class="mb-3">
+                  <label for="province" class="form-label">Province</label>
+                  <select class="form-select" id="province" required>
+                    <option value="" disabled>Select your province</option>
+                    <option value="Catanduanes" selected>Catanduanes</option>
+                    <option value="Albay">Albay</option>
+                    <option value="Camarines Norte">Camarines Norte</option>
+                    <option value="Camarines Sur">Camarines Sur</option>
+                    <option value="Masbate">Masbate</option>
+                    <option value="Sorsogon">Sorsogon</option>
+                    <option value="Others">Others</option>
+                  </select>
+                  <div class="invalid-feedback">Please select your province.</div>
+                </div>
+                <div class="mb-3" id="other-province-container" style="display: none;">
+                  <label for="other-province" class="form-label">Specify Other Province</label>
+                  <input type="text" class="form-control" id="other-province" placeholder="Enter your province">
+                  <div class="invalid-feedback">Please specify your province.</div>
+                </div>
+                <script>
+                  document.getElementById('province').addEventListener('change', function () {
+                    const otherProvinceContainer = document.getElementById('other-province-container');
+                    if (this.value === 'Others') {
+                      otherProvinceContainer.style.display = 'block';
+                      document.getElementById('other-province').setAttribute('required', 'required');
+                    } else {
+                      otherProvinceContainer.style.display = 'none';
+                      document.getElementById('other-province').removeAttribute('required');
+                    }
+                  });
+                </script>
+              <div class="mb-3" id="municipality-container">
                 <label for="municipality" class="form-label">Municipality</label>
                 <select class="form-select" id="municipality" required>
                   <option value="" disabled selected>Select your municipality</option>
@@ -89,7 +192,29 @@
                 </select>
                 <div class="invalid-feedback">Please select your municipality.</div>
               </div>
-              <div class="mb-3">
+              <div class="mb-3" id="other-municipality-container" style="display: none;">
+                <label for="other-municipality" class="form-label">Municipality</label>
+                <input type="text" class="form-control" id="other-municipality" placeholder="Enter your municipality">
+                <div class="invalid-feedback">Please specify your municipality.</div>
+              </div>
+              <script>
+                document.getElementById('province').addEventListener('change', function () {
+                  const municipalityContainer = document.getElementById('municipality-container');
+                  const otherMunicipalityContainer = document.getElementById('other-municipality-container');
+
+                  if (this.value !== 'Catanduanes') {
+                    municipalityContainer.style.display = 'none';
+                    otherMunicipalityContainer.style.display = 'block';
+                    document.getElementById('other-municipality').setAttribute('required', 'required');
+                  } else {
+                    municipalityContainer.style.display = 'block';
+                    otherMunicipalityContainer.style.display = 'none';
+                    document.getElementById('other-municipality').removeAttribute('required');
+                  }
+                });
+              </script>
+                
+                <div class="mb-3">
                 <label for="sector" class="form-label">Sector</label>
                 <select class="form-select" id="sector" required>
                   <option value="" disabled selected>Select your sector</option>
@@ -108,7 +233,24 @@
                   <option value="OTHERS">OTHERS</option>
                 </select>
                 <div class="invalid-feedback">Please select your sector.</div>
-              </div>
+                </div>
+                <div class="mb-3" id="other-sector-container" style="display: none;">
+                <label for="other-sector" class="form-label">Specify Other Sector</label>
+                <input type="text" class="form-control" id="other-sector" placeholder="Enter your sector">
+                <div class="invalid-feedback">Please specify your sector.</div>
+                </div>
+                <script>
+                document.getElementById('sector').addEventListener('change', function () {
+                  const otherSectorContainer = document.getElementById('other-sector-container');
+                  if (this.value === 'OTHERS') {
+                  otherSectorContainer.style.display = 'block';
+                  document.getElementById('other-sector').setAttribute('required', 'required');
+                  } else {
+                  otherSectorContainer.style.display = 'none';
+                  document.getElementById('other-sector').removeAttribute('required');
+                  }
+                });
+                </script>
               <div class="mb-3">
                 <label for="purpose" class="form-label">Purpose</label>
                 <textarea class="form-control" id="purpose" placeholder="Enter your purpose here" rows="4"></textarea>
@@ -125,7 +267,7 @@
                   Policy</label>
                 <div class="invalid-feedback">You must agree to the Privacy Policy.</div>
               </div>
-              <button type="submit" class="btn btn-primary p-2" style="border-radius: 30px;">Submit</button>
+              <button type="submit" class="btn btn-primary p-2">Submit</button>
             </div>
           </div>
         </form>
@@ -141,6 +283,8 @@
         <img src="src/images/egov.png" alt="DICT Logo" class="img-fluid p-2" style="width: 100px; height: auto;">
       </div>
     </div>
+
+
 
   </div>
   <!-- <script src="src/js/script.js"></script> -->
