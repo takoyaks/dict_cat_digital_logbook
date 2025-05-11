@@ -10,7 +10,6 @@
   <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="src/css/font.css">
   <style>
-
     body {
       background-color: #f1f6fb;
       min-height: 100vh;
@@ -28,7 +27,6 @@
       box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
       overflow: hidden;
     }
-
   </style>
 </head>
 
@@ -113,7 +111,7 @@
               </div>
               <div class="mb-3">
                 <label for="purpose" class="form-label">Purpose</label>
-                <textarea class="form-control" id="purpose" placeholder="Enter your purpose here" rows="4" ></textarea>
+                <textarea class="form-control" id="purpose" placeholder="Enter your purpose here" rows="4"></textarea>
                 <div class="invalid-feedback">Please enter your purpose.</div>
               </div>
             </div>
@@ -122,7 +120,9 @@
             <div class="d-grid mb-3 px-4">
               <div class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" id="agree" required>
-                <label class="form-check-label" for="agree">I agree to the <a href="https://privacy.gov.ph/wp-content/uploads/2024/06/DPA-of-2012_1.pdf">Data Privacy</a> Policy</label>
+                <label class="form-check-label" for="agree">I agree to the <a
+                    href="https://privacy.gov.ph/wp-content/uploads/2024/06/DPA-of-2012_1.pdf">Data Privacy</a>
+                  Policy</label>
                 <div class="invalid-feedback">You must agree to the Privacy Policy.</div>
               </div>
               <button type="submit" class="btn btn-primary p-2" style="border-radius: 30px;">Submit</button>
@@ -131,9 +131,12 @@
         </form>
       </div>
       <div class="text-center">
-         <img src="src/images/bagong-pilipinas.png" alt="DICT Logo" class="img-fluid p-2" style="width: 100px; height: auto;">
-        <a href="admin.html"><img src="src/images/DICT-Logo-icon_only.png" alt="DICT Logo" class="img-fluid p-2" style="width: 100px; height: auto;"></a>
-        <img src="src/images/dtc_CATANDUANES.png" alt="DICT Logo" class="img-fluid p-2" style="width: 130px; height: auto;">
+        <img src="src/images/bagong-pilipinas.png" alt="DICT Logo" class="img-fluid p-2"
+          style="width: 100px; height: auto;">
+        <a href="admin.html"><img src="src/images/DICT-Logo-icon_only.png" alt="DICT Logo" class="img-fluid p-2"
+            style="width: 100px; height: auto;"></a>
+        <img src="src/images/dtc_CATANDUANES.png" alt="DICT Logo" class="img-fluid p-2"
+          style="width: 130px; height: auto;">
         <img src="src/images/ilcdb logo.png" alt="DICT Logo" class="img-fluid p-2" style="width: 120px; height: auto;">
         <img src="src/images/egov.png" alt="DICT Logo" class="img-fluid p-2" style="width: 100px; height: auto;">
       </div>
@@ -143,9 +146,9 @@
   <!-- <script src="src/js/script.js"></script> -->
   <script type="module" src="src/js/firebase/fb_setup.js"></script>
   <script type="module" src="src/js/firebase/fb_make.js"></script>
-   <script src="src/js/key_press.js"></script>
+  <script src="src/js/key_press.js"></script>
   <!-- <script src="firebase/fb_setup.js"></script> -->
-   <!-- <script  type="module" src="src/js/cookies.js"></script> -->
+  <!-- <script  type="module" src="src/js/cookies.js"></script> -->
 
   <script>
     // Bootstrap validation
@@ -162,6 +165,24 @@
         }, false);
       });
     })();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const appForm = document.getElementById('appform');
+      if (appForm) {
+        appForm.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent default form submission behavior
+            appForm.requestSubmit(); // Programmatically submit the form
+          }
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          document.documentElement.requestFullscreen();
+        }
+      });
+    });
   </script>
 </body>
 
