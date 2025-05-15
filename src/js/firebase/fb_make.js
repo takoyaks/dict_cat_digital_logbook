@@ -170,8 +170,11 @@ document.addEventListener("DOMContentLoaded", () => {
           purpose,
           timestamp: new Date()
         });
-        form.reset();
+
         form.classList.remove("was-validated");
+        // console.log("Document written with ID: ", docRef.id);
+        alert("Form submitted successfully! Thank you");
+        form.reset();
         location.reload(); // Refresh the page
       } catch (error) {
         console.error("Error adding document: ", error);
