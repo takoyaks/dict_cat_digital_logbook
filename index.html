@@ -117,6 +117,21 @@
                 <div class="invalid-feedback">Please enter a valid email address.</div>
               </div>
 
+              <div class="mb-3" id="age-container">
+                <label for="age" class="form-label">Age</label>
+                <select class="form-select" id="age" required>
+                  <option value="" disabled selected>Select your age group</option>
+                  <option value="19 and bellow">19 and bellow</option>
+                  <option value="20-29">20-29</option>
+                  <option value="30-39">30-39</option>
+                  <option value="40-49">40-49</option>
+                  <option value="50-59">50-59</option>
+                  <option value="50-69">50-69</option>
+                  <option value="60 and above">60 and above</option>
+                </select>
+                <div class="invalid-feedback">Please select your age group.</div>
+              </div>
+
               <div class="mb-3" id="gender-container">
                 <label for="gender" class="form-label">Gender</label>
                 <select class="form-select" id="gender" required>
@@ -170,7 +185,7 @@
                 <div class="invalid-feedback">Please specify your province.</div>
               </div>
 
-              <div class="mb-3" id="municipality-container" style="display: none;">
+              <div class="mb-3" id="municipality-container" >
                 <label for="municipality" class="form-label">Municipality</label>
                 <select class="form-select" id="municipality">
                   <option value="" disabled selected>Select your municipality</option>

@@ -28,6 +28,7 @@ const fetchDataIfLoggedIn = async () => {
             <td>${data.name}</td>
             <td>${data.phone}</td>
             <td>${data.email}</td>
+            <td>${data.age_group || "N/A"}</td>
             <td>${data.gender}</td>
             <td>${data.province || "N/A"}</td> <!-- Added province -->
             <td>${data.municipality}</td>
@@ -143,6 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const purpose = document.getElementById("purpose").value.trim();
 
+      const age_group = document.getElementById("age").value;
+
       console.log("Form Data:", {
         municipality,
         province});
@@ -159,6 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
           name,
           phone,
           email,
+          age_group,
           gender,
           province, 
           municipality,
