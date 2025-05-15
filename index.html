@@ -4,12 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DICT Digital Logbook</title>
+  <title>DICT Digital Logbook v1.1</title>
   <link rel="icon" href="src/images/DICT-Logo-icon_only.png" type="image/x-icon">
   <link rel="stylesheet" href="bootstrap-5.3.6-dist/css/bootstrap.min.css">
   <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="src/css/font.css">
   <style>
+    
     body {
       background-color: #f8f9fa;
       font-family: 'Arial', sans-serif;
@@ -89,10 +90,10 @@
 </head>
 
 <body>
-  <div class="container-fluid d-flex align-items-center justify-content-center vh-100 mt-5">
-    <div class="row w-100 justify-content-center align-items-center">
+  <div class="container-fluid d-flex align-items-center justify-content-center vh-100 ">
+    <div class=" row w-100 justify-content-center align-items-center" style="overflow-y: hidden; max-height: 90vh;">
 
-      <div class="card form-card p-4 mb-3">
+      <div class="card form-card p-4 mb-3" style="max-height: 80vh; overflow-y: auto;">
         <form id="appform" class="needs-validation" novalidate>
           <h1 class="text-center mb-4">Digital Logbook</h1>
           <div class="row g-0">
@@ -115,6 +116,7 @@
                 <input type="email" class="form-control" id="email" placeholder="juan@gmail.com">
                 <div class="invalid-feedback">Please enter a valid email address.</div>
               </div>
+
               <div class="mb-3" id="gender-container">
                 <label for="gender" class="form-label">Gender</label>
                 <select class="form-select" id="gender" required>
@@ -150,8 +152,8 @@
               <div class="mb-3">
                 <label for="province" class="form-label">Province</label>
                 <select class="form-select" id="province" required>
-                  <option value="" disabled>Select your province</option>
-                  <option value="Catanduanes" selected>Catanduanes</option>
+                  <option value="" disabled selected>Select your province</option>
+                  <option value="Catanduanes">Catanduanes</option>
                   <option value="Albay">Albay</option>
                   <option value="Camarines Norte">Camarines Norte</option>
                   <option value="Camarines Sur">Camarines Sur</option>
@@ -161,26 +163,16 @@
                 </select>
                 <div class="invalid-feedback">Please select your province.</div>
               </div>
+
               <div class="mb-3" id="other-province-container" style="display: none;">
                 <label for="other-province" class="form-label">Specify Other Province</label>
                 <input type="text" class="form-control" id="other-province" placeholder="Enter your province">
                 <div class="invalid-feedback">Please specify your province.</div>
               </div>
-              <script>
-                document.getElementById('province').addEventListener('change', function () {
-                  const otherProvinceContainer = document.getElementById('other-province-container');
-                  if (this.value === 'Others') {
-                    otherProvinceContainer.style.display = 'block';
-                    document.getElementById('other-province').setAttribute('required', 'required');
-                  } else {
-                    otherProvinceContainer.style.display = 'none';
-                    document.getElementById('other-province').removeAttribute('required');
-                  }
-                });
-              </script>
-              <div class="mb-3" id="municipality-container">
+
+              <div class="mb-3" id="municipality-container" style="display: none;">
                 <label for="municipality" class="form-label">Municipality</label>
-                <select class="form-select" id="municipality" required>
+                <select class="form-select" id="municipality">
                   <option value="" disabled selected>Select your municipality</option>
                   <option value="Virac">Virac</option>
                   <option value="Bato">Bato</option>
@@ -196,27 +188,57 @@
                 </select>
                 <div class="invalid-feedback">Please select your municipality.</div>
               </div>
+
               <div class="mb-3" id="other-municipality-container" style="display: none;">
-                <label for="other-municipality" class="form-label">Municipality</label>
+                <label for="other-municipality" class="form-label">Specify Municipality</label>
                 <input type="text" class="form-control" id="other-municipality" placeholder="Enter your municipality">
                 <div class="invalid-feedback">Please specify your municipality.</div>
               </div>
-              <script>
-                document.getElementById('province').addEventListener('change', function () {
-                  const municipalityContainer = document.getElementById('municipality-container');
-                  const otherMunicipalityContainer = document.getElementById('other-municipality-container');
 
-                  if (this.value !== 'Catanduanes') {
+              <script>
+                const provinceSelect = document.getElementById('province');
+                const otherProvinceContainer = document.getElementById('other-province-container');
+                const municipalityContainer = document.getElementById('municipality-container');
+                const otherMunicipalityContainer = document.getElementById('other-municipality-container');
+
+                const otherProvinceInput = document.getElementById('other-province');
+                const municipalitySelect = document.getElementById('municipality');
+                const otherMunicipalityInput = document.getElementById('other-municipality');
+
+                provinceSelect.addEventListener('change', function () {
+                  const selectedProvince = this.value;
+
+                  if (selectedProvince === 'Others') {
+                    otherProvinceContainer.style.display = 'block';
+                    otherProvinceInput.required = true;
+
                     municipalityContainer.style.display = 'none';
+                    municipalitySelect.required = false;
+
                     otherMunicipalityContainer.style.display = 'block';
-                    document.getElementById('other-municipality').setAttribute('required', 'required');
+                    otherMunicipalityInput.required = true;
+                  } else if (selectedProvince !== 'Catanduanes') {
+                    otherProvinceContainer.style.display = 'none';
+                    otherProvinceInput.required = false;
+
+                    municipalityContainer.style.display = 'none';
+                    municipalitySelect.required = false;
+
+                    otherMunicipalityContainer.style.display = 'block';
+                    otherMunicipalityInput.required = true;
                   } else {
+                    otherProvinceContainer.style.display = 'none';
+                    otherProvinceInput.required = false;
+
                     municipalityContainer.style.display = 'block';
+                    municipalitySelect.required = true;
+
                     otherMunicipalityContainer.style.display = 'none';
-                    document.getElementById('other-municipality').removeAttribute('required');
+                    otherMunicipalityInput.required = false;
                   }
                 });
               </script>
+
 
               <div class="mb-3">
                 <label for="sector" class="form-label">Sector</label>
@@ -280,6 +302,7 @@
           </div>
         </form>
       </div>
+      
       <div class="text-center">
         <img src="src/images/bagong-pilipinas.png" alt="DICT Logo" class="img-fluid p-2"
           style="width: 100px; height: auto;">
@@ -312,6 +335,9 @@
           if (!form.checkValidity()) {
             event.preventDefault();
             event.stopPropagation();
+          } else {
+            alert('Form submitted successfully!'); // Notify user on successful validation
+            // console.log('Form submitted successfully!');
           }
           form.classList.add('was-validated');
         }, false);

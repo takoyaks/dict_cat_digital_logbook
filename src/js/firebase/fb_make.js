@@ -16,21 +16,26 @@ const fetchDataIfLoggedIn = async () => {
         const querySnapshot = await getDocs(q);
         tableBody.innerHTML = ""; // Clear existing rows
 
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-            const date = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleDateString() : "N/A";
-            const time = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleTimeString() : "N/A";
-            const row = `<tr>
+        // Collect data and sort by timestamp (ascending)
+        const sortedData = querySnapshot.docs
+          .map((doc) => ({ id: doc.id, ...doc.data() }))
+          .sort((a, b) => (a.timestamp?.seconds || 0) - (b.timestamp?.seconds || 0));
+
+        sortedData.forEach((data) => {
+          const date = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleDateString() : "N/A";
+          const time = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleTimeString() : "N/A";
+          const row = `<tr>
             <td>${data.name}</td>
             <td>${data.phone}</td>
             <td>${data.email}</td>
             <td>${data.gender}</td>
+            <td>${data.province || "N/A"}</td> <!-- Added province -->
             <td>${data.municipality}</td>
             <td>${data.sector}</td>
             <td>${data.purpose}</td>
             <td>${date}</td>
             <td>${time}</td>
-            </tr>`;
+          </tr>`;
           tableBody.innerHTML += row;
         });
       } catch (error) {
@@ -38,7 +43,7 @@ const fetchDataIfLoggedIn = async () => {
         alert("Failed to fetch data. Please try again.");
       }
     } else {
-      tableBody.innerHTML = "<tr><td colspan='7' class='text-center'>You must be logged in to view the data.</td></tr>";
+      tableBody.innerHTML = "<tr><td colspan='10' class='text-center'>You must be logged in to view the data.</td></tr>";
     }
   });
 };
@@ -89,13 +94,59 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
 
       // Get form values
-      const name = document.getElementById("name").value;
-      const phone = document.getElementById("phone").value;
-      const email = document.getElementById("email").value;
-      const gender = document.getElementById("gender").value;
-      const municipality = document.getElementById("municipality").value;
-      const sector = document.getElementById("sector").value;
-      const purpose = document.getElementById("purpose").value;
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+
+      let gender = "";
+      const get_gender = document.getElementById("gender").value;
+      const other_gender = document.getElementById("other-gender").value;
+      if (get_gender === "Other" && other_gender.trim() !== "") {
+        gender = other_gender.trim();
+        // console.log("Gender OK",gender);
+      } else {
+        gender = get_gender;
+      }
+
+
+
+      let municipality = "";
+      const get_municipality = document.getElementById("municipality").value;
+      const other_municipality = document.getElementById("other-municipality").value;
+
+      let province = "";
+      const get_province = document.getElementById("province").value;
+      const other_province = document.getElementById("other-province").value;
+
+      if (get_province !== 'Catanduanes' ) {
+        municipality = other_municipality.trim();
+        if (get_province === "Others" && other_province.trim() !== "") {
+          province = other_province.trim();
+        }else {
+          province = get_province;
+        }
+      }else {
+        municipality = get_municipality;
+        province = get_province;
+      }
+
+
+
+      let sector = "";
+      const get_sector = document.getElementById("sector").value;
+      const other_sector = document.getElementById("other-sector").value;
+      if (get_sector === "OTHERS" && other_sector.trim() !== "") {
+        sector = other_sector.trim();
+      } else {
+        sector = get_sector;
+      }
+
+      const purpose = document.getElementById("purpose").value.trim();
+
+      console.log("Form Data:", {
+        municipality,
+        province});
+
 
       // Validate the form
       if (!form.checkValidity()) {
@@ -104,20 +155,20 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        // Save data to Firestore
         const docRef = await addDoc(collection(db, "catanduanes_logbook_entries"), {
           name,
           phone,
           email,
           gender,
+          province, 
           municipality,
           sector,
           purpose,
           timestamp: new Date()
         });
-        alert("Form submitted successfully! Document ID: " + docRef.id)+"\n Thank you for your submission.";
         form.reset();
         form.classList.remove("was-validated");
+        location.reload(); // Refresh the page
       } catch (error) {
         console.error("Error adding document: ", error);
         alert("Failed to submit the form. Please try again.");

@@ -12,7 +12,11 @@ function downloadTableAsCSV(tableId, filename) {
     // Check if the row is visible
     if (row.style.display !== "none") {
       const cells = row.querySelectorAll("th, td");
-      const rowData = Array.from(cells).map((cell) => cell.textContent.trim());
+      const rowData = Array.from(cells).map((cell) => {
+        // Escape double quotes and wrap content in quotes
+        const content = cell.textContent.trim().replace(/"/g, '""');
+        return `"${content}"`;
+      });
       csvContent += rowData.join(",") + "\n";
     }
   });
