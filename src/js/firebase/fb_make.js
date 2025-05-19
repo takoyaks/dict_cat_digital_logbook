@@ -146,10 +146,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const age_group = document.getElementById("age").value;
 
-      console.log("Form Data:", {
-        municipality,
-        province});
-
+      // Prevent duplicate entries (same name, purpose, same day)
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+      // Query for existing entry
+      const q = query(
+        collection(db, "catanduanes_logbook_entries")
+      );
+      const querySnapshot = await getDocs(q);
+      let duplicateFound = false;
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        if (
+          data.name === name &&
+          data.purpose === purpose &&
+          data.timestamp &&
+          new Date(data.timestamp.seconds * 1000) >= today &&
+          new Date(data.timestamp.seconds * 1000) < tomorrow
+        ) {
+          duplicateFound = true;
+        }
+      });
+      if (duplicateFound) {
+        alert("You have already submitted an entry today with the same name and purpose.");
+        return;
+      }
 
       // Validate the form
       if (!form.checkValidity()) {
