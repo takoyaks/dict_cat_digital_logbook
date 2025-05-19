@@ -170,7 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
       if (duplicateFound) {
-        alert("You have already submitted an entry today with the same name and purpose.");
+        document.getElementById("purpose").focus();
+        document.getElementById("purpose").style.borderColor = "red";
+        alert("Please change the purpose to submit a new entry.");
         return;
       }
 
