@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
       loadingScreen.style.justifyContent = "center";
       loadingScreen.style.alignItems = "center";
       loadingScreen.style.zIndex = "9999";
-      loadingScreen.innerHTML = `<iframe src="https://lottie.host/embed/ea222d34-610b-46ea-af5c-bd95d8fb5b02/HQFN7RFirP.lottie" style="width:300px;height:300px;border:none;background:#fff;border-radius:8px;"></iframe>`;
+      loadingScreen.innerHTML = `<iframe src="https://lottie.host/embed/6a3a25e7-b858-487b-b1f5-b2f73f520958/IIGEBf4W18.lottie" style="width:150px;height:150px;border:none;background:#fff;border-radius:10px;"></iframe>`;
       document.body.appendChild(loadingScreen);
 
       // Disable submit button
@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       form.classList.remove("was-validated");
-      // alert("Form submitted successfully! Thank you");
+      alert("Form submitted successfully! Thank you");
       form.reset();
       location.reload(); // Refresh the page
       } catch (error) {
@@ -221,6 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // alert("Failed to submit the form. Please try again.");
       } finally {
       // Hide loading screen and enable submit button
+      await new Promise(resolve => setTimeout(resolve, 1000));
       if (loadingScreen) loadingScreen.remove();
       if (submitBtn) submitBtn.disabled = false;
       }
