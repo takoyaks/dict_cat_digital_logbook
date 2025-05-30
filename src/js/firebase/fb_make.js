@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       form.classList.remove("was-validated");
-      alert("Form submitted successfully! Thank you");
+     // alert("Form submitted successfully! Thank you");
       form.reset();
       location.reload(); // Refresh the page
       } catch (error) {
