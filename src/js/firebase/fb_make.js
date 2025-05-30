@@ -94,6 +94,26 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
+      // Show loading screen
+      const loadingScreen = document.createElement("div");
+      loadingScreen.id = "loading-screen";
+      loadingScreen.style.position = "fixed";
+      loadingScreen.style.top = "0";
+      loadingScreen.style.left = "0";
+      loadingScreen.style.width = "100vw";
+      loadingScreen.style.height = "100vh";
+      loadingScreen.style.background = "rgba(0,0,0,0.5)";
+      loadingScreen.style.display = "flex";
+      loadingScreen.style.justifyContent = "center";
+      loadingScreen.style.alignItems = "center";
+      loadingScreen.style.zIndex = "9999";
+      loadingScreen.innerHTML = `<iframe src="https://lottie.host/embed/ea222d34-610b-46ea-af5c-bd95d8fb5b02/HQFN7RFirP.lottie" style="width:300px;height:300px;border:none;background:#fff;border-radius:8px;"></iframe>`;
+      document.body.appendChild(loadingScreen);
+
+      // Disable submit button
+      const submitBtn = form.querySelector('[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
+
       // Get form values
       const name = document.getElementById("name").value.trim();
       const phone = document.getElementById("phone").value.trim();
@@ -103,13 +123,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const get_gender = document.getElementById("gender").value;
       const other_gender = document.getElementById("other-gender").value;
       if (get_gender === "Other" && other_gender.trim() !== "") {
-        gender = other_gender.trim();
-        // console.log("Gender OK",gender);
+      gender = other_gender.trim();
       } else {
-        gender = get_gender;
+      gender = get_gender;
       }
-
-
 
       let municipality = "";
       const get_municipality = document.getElementById("municipality").value;
@@ -120,30 +137,27 @@ document.addEventListener("DOMContentLoaded", () => {
       const other_province = document.getElementById("other-province").value;
 
       if (get_province !== 'Catanduanes' ) {
-        municipality = other_municipality.trim();
-        if (get_province === "Others" && other_province.trim() !== "") {
-          province = other_province.trim();
-        }else {
-          province = get_province;
-        }
+      municipality = other_municipality.trim();
+      if (get_province === "Others" && other_province.trim() !== "") {
+        province = other_province.trim();
       }else {
-        municipality = get_municipality;
         province = get_province;
       }
-
-
+      }else {
+      municipality = get_municipality;
+      province = get_province;
+      }
 
       let sector = "";
       const get_sector = document.getElementById("sector").value;
       const other_sector = document.getElementById("other-sector").value;
       if (get_sector === "OTHERS" && other_sector.trim() !== "") {
-        sector = other_sector.trim();
+      sector = other_sector.trim();
       } else {
-        sector = get_sector;
+      sector = get_sector;
       }
 
       const purpose = document.getElementById("purpose").value.trim();
-
       const age_group = document.getElementById("age").value;
 
       // Prevent duplicate entries (same name, purpose, same day)
@@ -151,22 +165,24 @@ document.addEventListener("DOMContentLoaded", () => {
       today.setHours(0, 0, 0, 0);
       const tomorrow = new Date(today);
       tomorrow.setDate(today.getDate() + 1);
+
+      try {
       // Query for existing entry
       const q = query(
-        collection(db, "catanduanes_logbook_entries")
+        collection(db, "logbook_entries")
       );
       const querySnapshot = await getDocs(q);
       let duplicateFound = false;
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         if (
-          data.name === name &&
-          data.purpose === purpose &&
-          data.timestamp &&
-          new Date(data.timestamp.seconds * 1000) >= today &&
-          new Date(data.timestamp.seconds * 1000) < tomorrow
+        data.name === name &&
+        data.purpose === purpose &&
+        data.timestamp &&
+        new Date(data.timestamp.seconds * 1000) >= today &&
+        new Date(data.timestamp.seconds * 1000) < tomorrow
         ) {
-          duplicateFound = true;
+        duplicateFound = true;
         }
       });
       if (duplicateFound) {
@@ -182,28 +198,31 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      try {
-        const docRef = await addDoc(collection(db, "catanduanes_logbook_entries"), {
-          name,
-          phone,
-          email,
-          age_group,
-          gender,
-          province, 
-          municipality,
-          sector,
-          purpose,
-          timestamp: new Date()
-        });
+      // Add to Firestore
+      await addDoc(collection(db, "catanduanes_logbook_entries"), {
+        name,
+        phone,
+        email,
+        age_group,
+        gender,
+        province, 
+        municipality,
+        sector,
+        purpose,
+        timestamp: new Date()
+      });
 
-        form.classList.remove("was-validated");
-        // console.log("Document written with ID: ", docRef.id);
-        alert("Form submitted successfully! Thank you");
-        form.reset();
-        location.reload(); // Refresh the page
+      form.classList.remove("was-validated");
+      // alert("Form submitted successfully! Thank you");
+      form.reset();
+      location.reload(); // Refresh the page
       } catch (error) {
-        console.error("Error adding document: ", error);
-        alert("Failed to submit the form. Please try again.");
+      console.error("Error adding document: ", error);
+      // alert("Failed to submit the form. Please try again.");
+      } finally {
+      // Hide loading screen and enable submit button
+      if (loadingScreen) loadingScreen.remove();
+      if (submitBtn) submitBtn.disabled = false;
       }
     });
   }
