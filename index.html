@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DICT Digital Logbook v1.5</title>
+  <title>DICT Digital Logbook v1.5.1</title>
   <link rel="icon" href="src/images/DICT-Logo-icon_only.png" type="image/x-icon">
   <link rel="stylesheet" href="bootstrap-5.3.6-dist/css/bootstrap.min.css">
   <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
@@ -93,6 +93,37 @@
   <div class="container-fluid d-flex align-items-center justify-content-center vh-100 ">
     <div class=" row w-100 justify-content-center align-items-center" style="overflow-y: hidden; max-height: 90vh;">
 
+      <div class="Timer col-12 text-left">
+        <h2 class="text-white fs-1 text" id="timer">00:00:00</h2>
+         <h2 class="text-white fs-6 text" id="date">mm:dd:yyyy</h2>
+      </div>
+      <script>
+        // Function to update the timer every second
+        function updateTimer() {
+          const now = new Date();
+          const hours = String(now.getHours()).padStart(2, '0');
+          const minutes = String(now.getMinutes()).padStart(2, '0');
+          const seconds = String(now.getSeconds()).padStart(2, '0');
+          document.getElementById('timer').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Function to update the date every second
+        function updateDate() {
+          const now = new Date();
+          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+          document.getElementById('date').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Initial call to set the timer and date
+        updateTimer();
+        updateDate();
+
+        // Update the timer and date every second
+        setInterval(updateTimer, 1000);
+        setInterval(updateDate, 1000);
+      </script>
+
+
       <div class="card form-card p-4 mb-3" style="max-height: 80vh; overflow-y: auto;">
         <form id="appform" class="needs-validation" novalidate>
           <h1 class="text-center mb-4">Digital Logbook</h1>
@@ -102,12 +133,12 @@
             <div class="col-md-6 p-4">
               <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Juan Dela Cruz" autocomplete="off" required>
+                <input style="text-transform: uppercase;" type="text" class="form-control" id="name" placeholder="Juan Dela Cruz" autocomplete="off" required>
                 <div class="invalid-feedback">Please enter your name.</div>
               </div>
               <div class="mb-3">
                 <label for="phone" class="form-label">Phone</label>
-                <input type="tel" class="form-control" id="phone" placeholder="09876543210" pattern="[0-9]{11}"
+                <input  type="tel" class="form-control" id="phone" placeholder="09876543210" pattern="[0-9]{11}"
                   maxlength="11" autocomplete="off">
                 <div class="invalid-feedback">Please enter a valid 11-digit phone number.</div>
               </div>
@@ -180,7 +211,7 @@
               </div>
 
               <div class="mb-3" id="other-province-container" style="display: none;">
-                <label for="other-province" class="form-label">Specify Other Province</label>
+                <label for="other-province" class="form-label">Specify Other Province/City</label>
                 <input type="text" class="form-control" id="other-province" placeholder="Enter your province">
                 <div class="invalid-feedback">Please specify your province.</div>
               </div>
@@ -205,9 +236,9 @@
               </div>
 
               <div class="mb-3" id="other-municipality-container" style="display: none;">
-                <label for="other-municipality" class="form-label">Specify City/Municipality</label>
-                <input type="text" class="form-control" id="other-municipality" placeholder="Enter your city/municipality">
-                <div class="invalid-feedback">Please specify your city/municipality.</div>
+                <label for="other-municipality" class="form-label">Specify Municipality</label>
+                <input type="text" class="form-control" id="other-municipality" placeholder="Enter your municipality">
+                <div class="invalid-feedback">Please specify your municipality.</div>
               </div>
 
               <script>
