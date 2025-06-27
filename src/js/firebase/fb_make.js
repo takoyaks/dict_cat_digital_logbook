@@ -10,6 +10,22 @@ const provider = new GoogleAuthProvider();
 const fetchDataIfLoggedIn = async () => {
   onAuthStateChanged(auth, async (user) => {
     const tableBody = document.querySelector("#report-table tbody");
+    // Show loading screen
+    const loadingScreen = document.createElement("div");
+    loadingScreen.id = "loading-screen-fetch";
+    loadingScreen.style.position = "fixed";
+    loadingScreen.style.top = "0";
+    loadingScreen.style.left = "0";
+    loadingScreen.style.width = "100vw";
+    loadingScreen.style.height = "100vh";
+    loadingScreen.style.background = "rgba(0,0,0,0.5)";
+    loadingScreen.style.display = "flex";
+    loadingScreen.style.justifyContent = "center";
+    loadingScreen.style.alignItems = "center";
+    loadingScreen.style.zIndex = "9999";
+    loadingScreen.innerHTML = `<iframe src="https://lottie.host/embed/82dd7cfa-56a6-4376-bfc5-3bf3b6c69c84/CZA6AYXf8J.lottie" style="width:150px;height:150px;border:none;background:#fff;border-radius:10px;"></iframe>`;
+    document.body.appendChild(loadingScreen);
+
     if (user) {
       try {
         const q = query(collection(db, "catanduanes_logbook_entries"));
@@ -30,7 +46,7 @@ const fetchDataIfLoggedIn = async () => {
             <td>${data.email}</td>
             <td>${data.age_group || "N/A"}</td>
             <td>${data.gender}</td>
-            <td>${data.province || "N/A"}</td> <!-- Added province -->
+            <td>${data.province || "N/A"}</td>
             <td>${data.municipality}</td>
             <td>${data.sector}</td>
             <td>${data.purpose}</td>
@@ -42,9 +58,14 @@ const fetchDataIfLoggedIn = async () => {
       } catch (error) {
         console.error("Error fetching data: ", error);
         alert("Failed to fetch data. Please try again.");
+      } finally {
+        // Hide loading screen
+        await new Promise(resolve => setTimeout(resolve, 500));
+        if (loadingScreen) loadingScreen.remove();
       }
     } else {
       tableBody.innerHTML = "<tr><td colspan='10' class='text-center'>You must be logged in to view the data.</td></tr>";
+      if (loadingScreen) loadingScreen.remove();
     }
   });
 };
@@ -79,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         alert(`Welcome ${user.email}! You are now logged in.`);
+        
         // Optionally, redirect the user or perform additional actions
         window.open('report.html', '_blank');
       } catch (error) {
@@ -213,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       form.classList.remove("was-validated");
-     // alert("Form submitted successfully! Thank you");
+      //alert("Form submitted successfully! Thank you");
       form.reset();
       location.reload(); // Refresh the page
       } catch (error) {

@@ -8,6 +8,11 @@
   <link rel="icon" href="src/images/DICT-Logo-icon_only.png" type="image/x-icon">
   <link rel="stylesheet" href="bootstrap-5.3.6-dist/css/bootstrap.min.css">
   <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
+                  <!-- Daterangepicker dependencies -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
   <style>
     body {
@@ -39,46 +44,96 @@
       <div class="card form-card p-4 mb-3">
           <h1 class="text-center mb-4">Report</h1>
           <div class="row g-0">
-            <div class="d-flex mb-3 px-4">
-              <select id="start-month" class="form-select me-2" style="max-width: 150px;">
-                <option value="">Start Month</option>
-                <option value="0">January</option>
-                <option value="1">February</option>
-                <option value="2">March</option>
-                <option value="3">April</option>
-                <option value="4">May</option>
-                <option value="5">June</option>
-                <option value="6">July</option>
-                <option value="7">August</option>
-                <option value="8">September</option>
-                <option value="9">October</option>
-                <option value="10">November</option>
-                <option value="11">December</option>
-              </select>
-              <select id="start-year" class="form-select me-2" style="max-width: 150px;">
-                <option value="">Start Year</option>
-                <!-- Years will be dynamically populated -->
-              </select>
-              <select id="end-month" class="form-select me-2" style="max-width: 150px;">
-                <option value="">End Month</option>
-                <option value="0">January</option>
-                <option value="1">February</option>
-                <option value="2">March</option>
-                <option value="3">April</option>
-                <option value="4">May</option>
-                <option value="5">June</option>
-                <option value="6">July</option>
-                <option value="7">August</option>
-                <option value="8">September</option>
-                <option value="9">October</option>
-                <option value="10">November</option>
-                <option value="11">December</option>
-              </select>
-              <select id="end-year" class="form-select me-2" style="max-width: 150px;">
-                <option value="">End Year</option>
-                <!-- Years will be dynamically populated -->
-              </select>
-              <button id="apply-range-filter" class="btn btn-primary">Filter Range</button>
+
+            <div class="col-12 mb-4 d-flex justify-content-end align-items-center">
+              <label for="datepicker" class="form-label mb-0 me-2 fw-semibold" style="font-size: 1.1rem;">
+                <i class="bi bi-calendar-date me-1"></i> Filter Date:
+              </label>
+              <div class="input-group" style="max-width: 220px;">
+                <input type="text" id="datepicker" name="daterange" class="form-control border-start-0 rounded-end" style="background: #f8fafc;" value="" />
+                <script>
+                  $(function() {
+                    $('#datepicker').daterangepicker({
+                      autoUpdateInput: false,
+                      locale: {
+                        cancelLabel: 'Clear'
+                      },
+                      opens: 'left'
+                    });
+
+                    $('#datepicker').on('apply.daterangepicker', function(ev, picker) {
+                      $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+                      // Filter table rows based on date range
+                      const start = picker.startDate.startOf('day');
+                      const end = picker.endDate.endOf('day');
+                      $('#report-table tbody tr').each(function() {
+                        const dateCell = $(this).find('td').eq(9).text().trim();
+                        let rowDate = moment(dateCell, ['YYYY-MM-DD', 'M/D/YYYY', 'MM/DD/YYYY']);
+                        if (rowDate.isValid() && rowDate.isBetween(start, end, null, '[]')) {
+                          $(this).show();
+                        } else {
+                          $(this).hide();
+                        }
+                      });
+                    });
+
+                    $('#datepicker').on('cancel.daterangepicker', function(ev, picker) {
+                      $(this).val('');
+                      $('#report-table tbody tr').show();
+                    });
+                  });
+                </script>
+                <br>
+              <button id="clear-filter" class="btn btn-outline-secondary ms-2" type="button">Clear Filter</button>
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  const clearBtn = document.getElementById("clear-filter");
+                  const dateInput = document.getElementById("datepicker");
+                  clearBtn.addEventListener("click", function () {
+                    // Show loading screen
+                    const loadingScreen = document.createElement("div");
+                    loadingScreen.id = "loading-screen-fetch";
+                    loadingScreen.style.position = "fixed";
+                    loadingScreen.style.top = "0";
+                    loadingScreen.style.left = "0";
+                    loadingScreen.style.width = "100vw";
+                    loadingScreen.style.height = "100vh";
+                    loadingScreen.style.background = "rgba(0,0,0,0.5)";
+                    loadingScreen.style.display = "flex";
+                    loadingScreen.style.justifyContent = "center";
+                    loadingScreen.style.alignItems = "center";
+                    loadingScreen.style.zIndex = "9999";
+                    loadingScreen.innerHTML = `<iframe src="https://lottie.host/embed/82dd7cfa-56a6-4376-bfc5-3bf3b6c69c84/CZA6AYXf8J.lottie" style="width:150px;height:150px;border:none;background:#fff;border-radius:10px;"></iframe>`;
+                    document.body.appendChild(loadingScreen);
+
+                    dateInput.value = "";
+                    const tableRows = document.querySelectorAll("#report-table tbody tr");
+                    tableRows.forEach((row) => {
+                      row.style.display = "";
+                    });
+
+                    // Hide loading screen after a short delay (simulate loading)
+                    setTimeout(() => {
+                      loadingScreen.remove();
+                    }, 800);
+                  });
+                });
+              </script>
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  const clearBtn = document.getElementById("clear-filter");
+                  const dateInput = document.getElementById("datepicker");
+                  clearBtn.addEventListener("click", function () {
+                    dateInput.value = "";
+                    const tableRows = document.querySelectorAll("#report-table tbody tr");
+                    tableRows.forEach((row) => {
+                      row.style.display = "";
+                    });
+                  });
+                });
+              </script>
+              </div>
+              
             </div>
 
             <!-- Submit Section -->
@@ -150,58 +205,32 @@
     downloadTableAsCSV('report-table', 'catanduanes_digital_logbook_report.csv');
   });
 
-  // Populate year dropdowns dynamically
-  const currentYear = new Date().getFullYear();
-  const yearDropdowns = [document.getElementById('start-year'), document.getElementById('end-year')];
 
-  yearDropdowns.forEach(dropdown => {
-    for (let year = currentYear; year >= 2000; year--) {
-      const option = document.createElement('option');
-      option.value = year;
-      option.textContent = year;
-      dropdown.appendChild(option);
-    }
-  });
+  // Datepicker functionality
+  document.addEventListener("DOMContentLoaded", function () {
+    const dateInput = document.getElementById("datepicker");
 
-  document.getElementById('apply-range-filter').addEventListener('click', () => {
-    const rows = document.querySelectorAll('#report-table tbody tr');
+    dateInput.addEventListener("change", function () {
+      const selectedDate = dateInput.value;
+      const tableRows = document.querySelectorAll("#report-table tbody tr");
 
-    const startMonth = document.getElementById('start-month').value;
-    const startYear = document.getElementById('start-year').value;
-    const endMonth = document.getElementById('end-month').value;
-    const endYear = document.getElementById('end-year').value;
-
-    // Check if all dropdowns are selected
-    if (startMonth === '' || startYear === '' || endMonth === '' || endYear === '') {
-      alert('Please select both start and end month and year.');
-      return;
-    }
-
-    // Convert to integers
-    const sMonth = parseInt(startMonth);
-    const sYear = parseInt(startYear);
-    const eMonth = parseInt(endMonth);
-    const eYear = parseInt(endYear);
-
-    // Build date range objects
-    const startDate = new Date(sYear, sMonth, 1);
-    const endDate = new Date(eYear, eMonth + 1, 0); // last day of end month
-
-    rows.forEach(row => {
-      const dateCell = row.cells[7]; // Date column (assuming MM/DD/YYYY)
-      if (dateCell) {
-        const [month, day, year] = dateCell.textContent.trim().split('/').map(Number);
-        const rowDate = new Date(year, month - 1, day);
-
-        // Apply range filter
-        if (rowDate >= startDate && rowDate <= endDate) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
+      tableRows.forEach((row) => {
+        const dateCell = row.cells[9]; // Assuming 10th column is the date
+        if (dateCell) {
+          // Expecting date in format YYYY-MM-DD or DD/MM/YYYY
+          let cellDate = dateCell.textContent.trim();
+          let formattedRowDate = cellDate;
+          if (cellDate.includes("/")) {
+            // Convert M/DD/YYYY to YYYY-MM-DD
+            const [month, day, year] = cellDate.split("/");
+            formattedRowDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+          }
+          row.style.display = (formattedRowDate === selectedDate) ? "" : "none";
         }
-      }
+      });
     });
   });
+
 </script>
 
 </body>
