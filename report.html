@@ -181,22 +181,25 @@
                     <div class="col text-end">
                       <span id="male-count" class="badge bg-primary me-2">Male: 0</span>
                       <span id="female-count" class="badge bg-danger">Female: 0</span>
+                      <span id="total-count" class="badge bg-secondary ms-2">Total: 0</span>
                     </div>
                   </div>
-                  <script>
+                    <script>
                     function updateGenderCounts() {
-                      let male = 0, female = 0;
+                      let male = 0, female = 0, total = 0;
                       document.querySelectorAll("#report-table tbody tr").forEach(row => {
-                        if (row.style.display === "none") return;
-                        const genderCell = row.cells[4];
-                        if (genderCell) {
-                          const gender = genderCell.textContent.trim().toLowerCase();
-                          if (gender === "male") male++;
-                          if (gender === "female") female++;
-                        }
+                      if (row.style.display === "none") return;
+                      const genderCell = row.cells[4];
+                      if (genderCell) {
+                        const gender = genderCell.textContent.trim().toLowerCase();
+                        if (gender === "male") male++;
+                        if (gender === "female") female++;
+                        total++;
+                      }
                       });
                       document.getElementById("male-count").textContent = `Male: ${male}`;
                       document.getElementById("female-count").textContent = `Female: ${female}`;
+                      document.getElementById("total-count").textContent = `Total: ${total}`;
                     }
 
                     document.addEventListener("DOMContentLoaded", function () {
@@ -207,27 +210,27 @@
                       document.getElementById("datepicker").addEventListener("apply.daterangepicker", updateGenderCounts);
                       document.getElementById("datepicker").addEventListener("cancel.daterangepicker", updateGenderCounts);
                       document.getElementById("clear-filter").addEventListener("click", function() {
-                        setTimeout(updateGenderCounts, 850); // Wait for loading screen to disappear
+                      setTimeout(updateGenderCounts, 850); // Wait for loading screen to disappear
                       });
 
                       // Also update after table data changes (if dynamic)
                       const tableBody = document.querySelector("#report-table tbody");
                       if (tableBody) {
-                        const observer = new MutationObserver(updateGenderCounts);
-                        observer.observe(tableBody, { childList: true, subtree: true });
+                      const observer = new MutationObserver(updateGenderCounts);
+                      observer.observe(tableBody, { childList: true, subtree: true });
                       }
 
                       // Update counts after daterangepicker filter is applied or cleared (jQuery events)
                       if (window.jQuery) {
-                        $('#datepicker').on('apply.daterangepicker', function() {
-                          setTimeout(updateGenderCounts, 10);
-                        });
-                        $('#datepicker').on('cancel.daterangepicker', function() {
-                          setTimeout(updateGenderCounts, 10);
-                        });
+                      $('#datepicker').on('apply.daterangepicker', function() {
+                        setTimeout(updateGenderCounts, 10);
+                      });
+                      $('#datepicker').on('cancel.daterangepicker', function() {
+                        setTimeout(updateGenderCounts, 10);
+                      });
                       }
                     });
-                  </script>
+                    </script>
             </div>
 
           </div>
