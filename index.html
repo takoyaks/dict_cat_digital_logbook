@@ -21,7 +21,7 @@
       justify-content: center;
       background-size: cover;
       background-position: center;
-      background-image: url('src/images/nict-theme/Catanduanes__NICT.png');
+      background-image: url('src/images/dtc_logo.png');
       overflow: hidden;
       /* Hides the scrollbar */
     }
@@ -29,9 +29,12 @@
     .form-card {
       max-width: 900px;
       border-radius: 1rem;
-      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
       overflow: hidden;
-      background-color: #ffffff;
+      background-color: rgba(212, 212, 212, 0.575); /* white with 10% opacity */
+      backdrop-filter: blur(8px);                 /* frosted glass effect */
+      -webkit-backdrop-filter: blur(8px);         /* for Safari */
+      border: 2.5px solid rgb(255, 249, 249);  /* subtle border */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);     /* soft shadow */
     }
 
     .form-card h1 {
@@ -86,6 +89,9 @@
     .text-center img {
       margin: 0.5rem;
     }
+    .ph::placeholder {
+      color: rgba(0, 0, 0, 0.541); /* white with 50% opacity */
+    }
   </style>
 </head>
 
@@ -95,16 +101,20 @@
 
       <div class="Timer col-12 position-absolute start-0 top-0 mt-5 ms-1" style="z-index: 10;">
         <h1 class="text-light" id="timer" style="font-size: 3rem;">00:00:00</h1>
-        <h2 class="text-body-secondary fs-5 text" id="date">mm:dd:yyyy</h2>
+        <h2 class="text-light fs-5 text" id="date">mm:dd:yyyy</h2>
       </div>
       <script>
-        // Function to update the timer every second
+        // Function to update the timer every second in 12-hour format with AM/PM
         function updateTimer() {
           const now = new Date();
-          const hours = String(now.getHours()).padStart(2, '0');
+          let hours = now.getHours();
           const minutes = String(now.getMinutes()).padStart(2, '0');
           const seconds = String(now.getSeconds()).padStart(2, '0');
-          document.getElementById('timer').textContent = `${hours}:${minutes}:${seconds}`;
+          const ampm = hours >= 12 ? 'PM' : 'AM';
+          hours = hours % 12;
+          hours = hours ? hours : 12; // the hour '0' should be '12'
+          hours = String(hours).padStart(2, '0');
+          document.getElementById('timer').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
         }
 
         // Function to update the date every second
@@ -133,22 +143,22 @@
             <div class="col-md-6 p-4">
               <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input style="text-transform: uppercase;" type="text" class="form-control" id="name" placeholder="Juan Dela Cruz" autocomplete="off" required>
+                <input style="text-transform: uppercase;" type="text" class="form-control ph" id="name" placeholder="Juan Dela Cruz" autocomplete="off" required>
                 <div class="invalid-feedback">Please enter your name.</div>
               </div>
               <div class="mb-3">
-                <label for="phone" class="form-label">Phone</label>
-                <input  type="tel" class="form-control" id="phone" placeholder="09876543210" pattern="[0-9]{11}"
+                <label for="phone" class="form-label ">Phone</label>
+                <input  type="tel" class="form-control ph" id="phone" placeholder="09876543210" pattern="[0-9]{11}"
                   maxlength="11" autocomplete="off">
                 <div class="invalid-feedback">Please enter a valid 11-digit phone number.</div>
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="juan@gmail.com" autocomplete="off">
+                <input type="email" class="form-control ph" id="email" placeholder="juan@gmail.com" autocomplete="off">
                 <div class="invalid-feedback">Please enter a valid email address.</div>
               </div>
 
-              <div class="mb-3" id="age-container">
+              <div class="mb-3 ph" id="age-container">
                 <label for="age" class="form-label">Age</label>
                 <select class="form-select" id="age" required>
                   <option value="" disabled selected>Select your age group</option>
@@ -176,7 +186,7 @@
               </div>
               <div class="mb-3" id="other-gender-container" style="display: none;">
                 <label for="other-gender" class="form-label">Specify Other Gender</label>
-                <input type="text" class="form-control" id="other-gender" placeholder="Enter your gender">
+                <input type="text" class="form-control ph" id="other-gender" placeholder="Enter your gender">
                 <div class="invalid-feedback">Please specify your gender.</div>
               </div>
               <script>
@@ -212,7 +222,7 @@
 
               <div class="mb-3" id="other-province-container" style="display: none;">
                 <label for="other-province" class="form-label">Specify Other Province/City</label>
-                <input type="text" class="form-control" id="other-province" placeholder="Enter your province">
+                <input type="text" class="form-control ph" id="other-province" placeholder="Enter your province">
                 <div class="invalid-feedback">Please specify your province.</div>
               </div>
 
@@ -237,7 +247,7 @@
 
               <div class="mb-3" id="other-municipality-container" style="display: none;">
                 <label for="other-municipality" class="form-label">Specify Municipality</label>
-                <input type="text" class="form-control" id="other-municipality" placeholder="Enter your municipality">
+                <input type="text" class="form-control ph" id="other-municipality" placeholder="Enter your municipality">
                 <div class="invalid-feedback">Please specify your municipality.</div>
               </div>
 
@@ -309,7 +319,7 @@
               </div>
               <div class="mb-3" id="other-sector-container" style="display: none;">
                 <label for="other-sector" class="form-label">Specify Other Sector</label>
-                <input type="text" class="form-control" id="other-sector" placeholder="Enter your sector">
+                <input type="text" class="form-control ph" id="other-sector" placeholder="Enter your sector">
                 <div class="invalid-feedback">Please specify your sector.</div>
               </div>
               <script>
@@ -326,7 +336,7 @@
               </script>
               <div class="mb-3">
                 <label for="purpose" class="form-label">Purpose</label>
-                <textarea class="form-control" id="purpose" placeholder="Enter your purpose here" rows="5" required></textarea>
+                <textarea class="form-control ph" id="purpose" placeholder="Enter your purpose here" rows="5" required></textarea>
                 <div class="invalid-feedback">Please enter your purpose.</div>
               </div>
             </div>
