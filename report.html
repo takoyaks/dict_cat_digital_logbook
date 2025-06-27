@@ -144,7 +144,7 @@
                 <div style="max-height: 400px; overflow-y: auto;">
                 <table id="report-table" class="table table-striped table-bordered table-hover">
                   <thead>
-                  <tr>
+                    <tr style="position: sticky; top: 0; background: #fff; z-index: 2;">
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Email</th>
@@ -156,7 +156,7 @@
                     <th>Purpose</th>
                     <th>Date</th>
                     <th>Time</th>
-                  </tr>
+                    </tr>
                   </thead>
                   <tbody>
                   <!-- Data will be dynamically inserted here -->
@@ -177,6 +177,57 @@
                   </tbody>
                 </table>
                 </div>
+                  <div class="row mb-3">
+                    <div class="col text-end">
+                      <span id="male-count" class="badge bg-primary me-2">Male: 0</span>
+                      <span id="female-count" class="badge bg-danger">Female: 0</span>
+                    </div>
+                  </div>
+                  <script>
+                    function updateGenderCounts() {
+                      let male = 0, female = 0;
+                      document.querySelectorAll("#report-table tbody tr").forEach(row => {
+                        if (row.style.display === "none") return;
+                        const genderCell = row.cells[4];
+                        if (genderCell) {
+                          const gender = genderCell.textContent.trim().toLowerCase();
+                          if (gender === "male") male++;
+                          if (gender === "female") female++;
+                        }
+                      });
+                      document.getElementById("male-count").textContent = `Male: ${male}`;
+                      document.getElementById("female-count").textContent = `Female: ${female}`;
+                    }
+
+                    document.addEventListener("DOMContentLoaded", function () {
+                      updateGenderCounts();
+
+                      // Update counts on filter change
+                      document.getElementById("datepicker").addEventListener("change", updateGenderCounts);
+                      document.getElementById("datepicker").addEventListener("apply.daterangepicker", updateGenderCounts);
+                      document.getElementById("datepicker").addEventListener("cancel.daterangepicker", updateGenderCounts);
+                      document.getElementById("clear-filter").addEventListener("click", function() {
+                        setTimeout(updateGenderCounts, 850); // Wait for loading screen to disappear
+                      });
+
+                      // Also update after table data changes (if dynamic)
+                      const tableBody = document.querySelector("#report-table tbody");
+                      if (tableBody) {
+                        const observer = new MutationObserver(updateGenderCounts);
+                        observer.observe(tableBody, { childList: true, subtree: true });
+                      }
+
+                      // Update counts after daterangepicker filter is applied or cleared (jQuery events)
+                      if (window.jQuery) {
+                        $('#datepicker').on('apply.daterangepicker', function() {
+                          setTimeout(updateGenderCounts, 10);
+                        });
+                        $('#datepicker').on('cancel.daterangepicker', function() {
+                          setTimeout(updateGenderCounts, 10);
+                        });
+                      }
+                    });
+                  </script>
             </div>
 
           </div>
