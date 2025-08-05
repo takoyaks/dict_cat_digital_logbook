@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fil">
 
 <head>
   <meta charset="UTF-8">
@@ -21,7 +21,7 @@
       justify-content: center;
       background-size: cover;
       background-position: center;
-      background-image: url('src/images/dtc_logo.png');
+      background-image: url('src/images/buwan_wika_bg_1.png');
       overflow: hidden;
       /* Hides the scrollbar */
     }
@@ -136,58 +136,58 @@
 
       <div class="card form-card p-4 mb-3" style="max-height: 80vh; overflow-y: auto;">
         <form id="appform" class="needs-validation" novalidate>
-          <h1 class="text-center mb-4">Digital Logbook</h1>
+          <h1 class="text-center mb-4">Digital na Aklat ng Pagdalo</h1>
           <div class="row g-0">
 
             <!-- Left Side -->
             <div class="col-md-6 p-4">
               <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
+                <label for="name" class="form-label">Pangalan</label>
                 <input style="text-transform: uppercase;" type="text" class="form-control ph" id="name" placeholder="Juan Dela Cruz" autocomplete="off" required>
-                <div class="invalid-feedback">Please enter your name.</div>
+                <div class="invalid-feedback">Mangyaring ilagay ang iyong pangalan.</div>
               </div>
               <div class="mb-3">
-                <label for="phone" class="form-label ">Phone</label>
+                <label for="phone" class="form-label ">Telepono</label>
                 <input  type="tel" class="form-control ph" id="phone" placeholder="09876543210" pattern="[0-9]{11}"
                   maxlength="11" autocomplete="off">
-                <div class="invalid-feedback">Please enter a valid 11-digit phone number.</div>
+                <div class="invalid-feedback">Mangyaring ilagay ang wastong 11-digit na numero.</div>
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control ph" id="email" placeholder="juan@gmail.com" autocomplete="off">
-                <div class="invalid-feedback">Please enter a valid email address.</div>
+                <div class="invalid-feedback">Mangyaring maglagay ng wastong email address.</div>
               </div>
 
               <div class="mb-3 ph" id="age-container">
-                <label for="age" class="form-label">Age</label>
+                <label for="age" class="form-label">Edad</label>
                 <select class="form-select" id="age" required>
-                  <option value="" disabled selected>Select your age group</option>
-                  <option value="19 and bellow">19 and bellow</option>
+                  <option value="" disabled selected>Piliin ang iyong pangkat ng edad</option>
+                  <option value="19 and bellow">19 at pababa</option>
                   <option value="20-29">20-29</option>
                   <option value="30-39">30-39</option>
                   <option value="40-49">40-49</option>
                   <option value="50-59">50-59</option>
                   <option value="50-69">50-69</option>
-                  <option value="60 and above">60 and above</option>
+                  <option value="60 and above">60 pataas</option>
                 </select>
-                <div class="invalid-feedback">Please select your age group.</div>
+                <div class="invalid-feedback">Mangyaring pumili ng pangkat ng edad.</div>
               </div>
 
               <div class="mb-3" id="gender-container">
-                <label for="gender" class="form-label">Gender</label>
+                <label for="gender" class="form-label">Kasarian</label>
                 <select class="form-select" id="gender" required>
-                  <option value="" disabled selected>Select your gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                  <option value="Prefer not to say">Prefer not to say</option>
+                  <option value="" disabled selected>Piliin ang iyong kasarian</option>
+                  <option value="Male">Lalaki</option>
+                  <option value="Female">Babae</option>
+                  <option value="Other">Iba pa</option>
+                  <option value="Prefer not to say">Mas gustong hindi sabihin</option>
                 </select>
-                <div class="invalid-feedback">Please select your gender.</div>
+                <div class="invalid-feedback">Mangyaring pumili ng kasarian.</div>
               </div>
               <div class="mb-3" id="other-gender-container" style="display: none;">
-                <label for="other-gender" class="form-label">Specify Other Gender</label>
-                <input type="text" class="form-control ph" id="other-gender" placeholder="Enter your gender">
-                <div class="invalid-feedback">Please specify your gender.</div>
+                <label for="other-gender" class="form-label">Ibang Kasarian</label>
+                <input type="text" class="form-control ph" id="other-gender" placeholder="Ilagay ang iyong kasarian">
+                <div class="invalid-feedback">Mangyaring tukuyin ang iyong kasarian.</div>
               </div>
               <script>
                 document.getElementById('gender').addEventListener('change', function () {
@@ -206,30 +206,31 @@
             <!-- Right Side -->
             <div class="col-md-6 p-4">
               <div class="mb-3">
-                <label for="province" class="form-label">Province</label>
+                <label for="province" class="form-label">Lalawigan</label>
                 <select class="form-select" id="province" required>
-                  <option value="" disabled selected>Select your province</option>
+                  <option value="" disabled selected>>Piliin ang iyong lalawigan</option>
                   <option value="Catanduanes" selected>Catanduanes</option>
                   <option value="Albay">Albay</option>
                   <option value="Camarines Norte">Camarines Norte</option>
                   <option value="Camarines Sur">Camarines Sur</option>
                   <option value="Masbate">Masbate</option>
                   <option value="Sorsogon">Sorsogon</option>
-                  <option value="Others">Others</option>
+                  <option value="Others">Iba pa</option>
                 </select>
-                <div class="invalid-feedback">Please select your province.</div>
+                <div class="invalid-feedback">Mangyaring pumili ng lalawigan.</div>
+
               </div>
 
               <div class="mb-3" id="other-province-container" style="display: none;">
-                <label for="other-province" class="form-label">Specify Other Province/City</label>
-                <input type="text" class="form-control ph" id="other-province" placeholder="Enter your province">
-                <div class="invalid-feedback">Please specify your province.</div>
+                <label for="other-province" class="form-label">Tukuyin ang Ibang Lalawigan</label>
+                <input type="text" class="form-control ph" id="other-province" placeholder="Ilagay ang iyong lalawigan">
+                <div class="invalid-feedback">Mangyaring tukuyin ang iyong lalawigan.</div>
               </div>
 
               <div class="mb-3" id="municipality-container" >
-                <label for="municipality" class="form-label">Municipality</label>
+                <label for="municipality" class="form-label">Bayan</label>
                 <select class="form-select" id="municipality">
-                  <option value="" disabled selected>Select your municipality</option>
+                  <option value="" disabled selected>Piliin ang iyong bayan</option>
                   <option value="Virac" selected>Virac</option>
                   <option value="Bato">Bato</option>
                   <option value="Baras">Baras</option>
@@ -242,12 +243,12 @@
                   <option value="Viga">Viga</option>
                   <option value="Panganiban">Panganiban</option>
                 </select>
-                <div class="invalid-feedback">Please select your municipality.</div>
+                <div class="invalid-feedback">Mangyaring pumili ng bayan.</div>
               </div>
 
               <div class="mb-3" id="other-municipality-container" style="display: none;">
                 <label for="other-municipality" class="form-label">Specify Municipality</label>
-                <input type="text" class="form-control ph" id="other-municipality" placeholder="Enter your municipality">
+                <input type="text" class="form-control ph" id="other-municipality" placeholder="Ilagay ang iyong bayan">
                 <div class="invalid-feedback">Please specify your municipality.</div>
               </div>
 
@@ -297,9 +298,9 @@
 
 
               <div class="mb-3">
-                <label for="sector" class="form-label">Sector</label>
+                <label for="sector" class="form-label">Sektor</label>
                 <select class="form-select" id="sector" required>
-                  <option value="" disabled selected>Select your sector</option>
+                  <option value="" disabled selected>Piliin ang iyong sektor</option>
                   <option value="NGA">NGA</option>
                   <option value="LGU">LGU</option>
                   <option value="PRIVATE">PRIVATE</option>
@@ -313,14 +314,14 @@
                   <option value="SUC">SUC</option>
                   <option value="FARMERS/FISHER">FARMERS/FISHER</option>
                   <option value="MSME">MSME</option>
-                  <option value="OTHERS">OTHERS</option>
+                  <option value="OTHERS">Iba pa</option>
                 </select>
-                <div class="invalid-feedback">Please select your sector.</div>
+                <div class="invalid-feedback">Mangyaring pumili ng sektor.</div>
               </div>
               <div class="mb-3" id="other-sector-container" style="display: none;">
-                <label for="other-sector" class="form-label">Specify Other Sector</label>
-                <input type="text" class="form-control ph" id="other-sector" placeholder="Enter your sector">
-                <div class="invalid-feedback">Please specify your sector.</div>
+                <label for="other-sector" class="form-label">Tukuyin ang Ibang Sektor</label>
+                <input type="text" class="form-control ph" id="other-sector" placeholder="Ilagay ang iyong sektor">
+                <div class="invalid-feedback">Mangyaring tukuyin ang iyong sektor.</div>
               </div>
               <script>
                 document.getElementById('sector').addEventListener('change', function () {
@@ -335,9 +336,9 @@
                 });
               </script>
               <div class="mb-3">
-                <label for="purpose" class="form-label">Purpose</label>
-                <textarea class="form-control ph" id="purpose" placeholder="Enter your purpose here" rows="5" required></textarea>
-                <div class="invalid-feedback">Please enter your purpose.</div>
+                <label for="purpose" class="form-label">Layunin</label>
+                <textarea class="form-control ph" id="purpose" placeholder="Ilagay ang iyong layunin dito" rows="5" required></textarea>
+                <div class="invalid-feedback">Mangyaring ilagay ang iyong layunin.</div>
               </div>
             </div>
 
@@ -345,12 +346,10 @@
             <div class="d-grid mb-3 px-4">
               <div class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" id="agree" required>
-                <label class="form-check-label" for="agree" style="font-size: small;">I consent to be included in the
-                  organizer’s database for future processing of relevant documents</label>
-                <div class="invalid-feedback">The DICT collects your personal data through these digital forms to
-                  provide verifiable evidence and documentation of your appearance, as well as for monitoring and
-                  evaluation purposes. Your information will be stored in our database for three years before being
-                  permanently erased from our records.
+                <label class="form-check-label" for="agree" style="font-size: small;">Sumasang-ayon ako na maisama sa database ng tagapag-ayos para sa mga darating na pagproseso ng mga kaugnay na dokumento</label>
+                <div class="invalid-feedback">Kinokolekta ng DICT ang iyong personal na impormasyon sa pamamagitan ng digital na pormularyong ito bilang patunay ng iyong pagdalo at
+                   para sa layunin ng pagsusubaybay at ebalwasyon. Itatago ang iyong impormasyon sa aming database ng tatlong taon bago permanenteng burahin.
+  
                 </div>
               </div>
               <button type="submit" class="btn btn-primary p-2">Submit</button>
